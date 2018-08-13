@@ -20,7 +20,7 @@ fn main() {
         println!("cargo:rustc-link-lib=sleef");
     } else {
     */
-    println!("cargo:rustc-link-lib=sleef");
+    println!("cargo:rustc-link-lib=static=sleef");
     /*
     }
     */
