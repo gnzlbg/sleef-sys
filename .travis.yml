@@ -1,20 +1,23 @@
 language: rust
 sudo: false
 rust: nightly
+services: docker
 
 matrix:
   fast_finish: true
   include:
     - env: TARGET=x86_64-unknown-linux-gnu
       name: "x86_64-unknown-linux-gnu + SSE2"
-      install: true
+      install: travis_retry rustup component add rustfmt-preview
     - os: osx
       env: TARGET=x86_64-apple-darwin
       name: "x86_64-apple-darwin + SSE2"
-      install: true
+      install: travis_retry rustup component add rustfmt-preview
       script: ci/run.sh
       osx_image: xcode9.4
-install: travis_retry rustup target add $TARGET
+install:
+  - travis_retry rustup target add $TARGET
+  - travis_retry rustup component add rustfmt-preview
 script: 
   - cargo generate-lockfile
   - ./ci/run.sh
