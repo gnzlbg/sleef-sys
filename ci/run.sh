@@ -9,6 +9,7 @@ set -ex
 export RUST_TEST_THREADS=1
 export RUST_BACKTRACE=full
 export RUST_TEST_NOCAPTURE=1
+export RUSTFLAGS="${RUSTFLAGS} -C codegen-units=1"
 
 export CARGO_INCREMENTAL=0
 export CARGO_BUILD_JOBS=1
