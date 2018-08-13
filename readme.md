@@ -34,16 +34,16 @@ at your option.
 ### Contribution
 
 Unless you explicitly state otherwise, any contribution intentionally submitted
-for inclusion in `sleef-rs` by you, as defined in the Apache-2.0 license, shall be
+for inclusion in `sleef-sys` by you, as defined in the Apache-2.0 license, shall be
 triple licensed as above, without any additional terms or conditions.
 
-[travis]: https://travis-ci.org/gnzlbg/sleef-rs
-[Travis-CI Status]: https://travis-ci.org/gnzlbg/sleef-rs.svg?branch=master
-[appveyor]: https://ci.appveyor.com/project/gnzlbg/sleef-rs
+[travis]: https://travis-ci.org/gnzlbg/sleef-sys
+[Travis-CI Status]: https://travis-ci.org/gnzlbg/sleef-sys.svg?branch=master
+[appveyor]: https://ci.appveyor.com/project/gnzlbg/sleef-sys
 [Appveyor Status]: https://ci.appveyor.com/api/projects/status/hd7v9dvr442hgdix?svg=true
-[Latest Version]: https://img.shields.io/crates/v/sleef-rs.svg
-[crates.io]: https://crates.io/crates/sleef-rs
+[Latest Version]: https://img.shields.io/crates/v/sleef-sys.svg
+[crates.io]: https://crates.io/crates/sleef-sys
 [docs]: https://docs.rs/sleef-r/badge.svg
-[docs.rs]: https://docs.rs/sleef-rs/
-[master_docs]: https://gnzlbg.github.io/sleef-rs/sleef-rs/
+[docs.rs]: https://docs.rs/sleef-sys/
+[master_docs]: https://gnzlbg.github.io/sleef-sys/sleef-sys/
 
