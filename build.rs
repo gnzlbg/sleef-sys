@@ -24,7 +24,7 @@ fn main() {
     /*
     }
     */
-    println!("cargo:rustc-link-search=native={}", dst.display());
+    println!("cargo:rustc-link-search=native={}/lib", dst.display());
 
     let out_dir = PathBuf::from(env::var_os("OUT_DIR").expect("OUT_DIR was not set"));
     let sleef_header = out_dir.join("include/sleef.h");
