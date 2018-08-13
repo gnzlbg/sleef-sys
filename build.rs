@@ -15,15 +15,7 @@ fn main() {
         .define("BUILD_SHARED_LIBS", "FALSE")
         .build();
 
-    /*
-    if target.contains("apple") {
-        println!("cargo:rustc-link-lib=sleef");
-    } else {
-    */
     println!("cargo:rustc-link-lib=static=sleef");
-    /*
-    }
-    */
     println!("cargo:rustc-link-search=native={}/lib", dst.display());
 
     let out_dir = PathBuf::from(env::var_os("OUT_DIR").expect("OUT_DIR was not set"));
@@ -57,9 +49,6 @@ fn main() {
     bindings
         .write_to_file(out_path.join("bindings.rs"))
         .expect("Couldn't write bindings!");
-
-
-
 
     println!("cargo:rerun-if-changed=build.rs");
     println!("cargo:rerun-if-changed=sleef");
