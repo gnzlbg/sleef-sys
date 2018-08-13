@@ -5,6 +5,8 @@ extern crate bindgen;
 use std::{path::PathBuf, env};
 
 fn main() {
+    let target = env::var("TARGET").expect("TARGET was not set");
+
     let dst = cmake::Config::new("sleef")
         // no DFT libraries (should be behind a feature flag):
         .define("BUILD_DFT", "FALSE")
@@ -13,8 +15,12 @@ fn main() {
         .define("BUILD_SHARED_LIBS", "FALSE")
         .build();
 
+    if target.contains("apple") {
+        println!("cargo:rustc-link-lib=sleef");
+    } else {
+        println!("cargo:rustc-link-lib=static=sleef");
+    }
     println!("cargo:rustc-link-search=native={}", dst.display());
-    println!("cargo:rustc-link-lib=sleef");
 
     let out_dir = PathBuf::from(env::var_os("OUT_DIR").expect("OUT_DIR was not set"));
     let sleef_header = out_dir.join("include/sleef.h");
@@ -47,6 +53,9 @@ fn main() {
     bindings
         .write_to_file(out_path.join("bindings.rs"))
         .expect("Couldn't write bindings!");
+
+
+
 
     println!("cargo:rerun-if-changed=build.rs");
     println!("cargo:rerun-if-changed=sleef");
