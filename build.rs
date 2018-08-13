@@ -15,11 +15,15 @@ fn main() {
         .define("BUILD_SHARED_LIBS", "FALSE")
         .build();
 
+    /*
     if target.contains("apple") {
         println!("cargo:rustc-link-lib=sleef");
     } else {
-        println!("cargo:rustc-link-lib=static=sleef");
+    */
+    println!("cargo:rustc-link-lib=sleef");
+    /*
     }
+    */
     println!("cargo:rustc-link-search=native={}", dst.display());
 
     let out_dir = PathBuf::from(env::var_os("OUT_DIR").expect("OUT_DIR was not set"));
