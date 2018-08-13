@@ -7,8 +7,11 @@ set -ex
 # Tests are all super fast anyway, and they fault often enough on travis that
 # having only one thread increases debuggability to be worth it.
 export RUST_TEST_THREADS=1
-#export RUST_BACKTRACE=full
-#export RUST_TEST_NOCAPTURE=1
+export RUST_BACKTRACE=full
+export RUST_TEST_NOCAPTURE=1
+
+export CARGO_INCREMENTAL=0
+export CARGO_BUILD_JOBS=1
 
 export CARGO_SUBCMD=test
 if [[ "${NORUN}" == "1" ]]; then
