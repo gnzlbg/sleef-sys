@@ -2,5 +2,28 @@
 name = "sleef-sys"
 version = "0.1.0"
 authors = ["gnzlbg <gonzalobg88@gmail.com>"]
+links = "sleef"
+readme = "readme.md"
+repository = "https://github.com/gnzlbg/sleef-sys"
+homepage = "https://github.com/gnzlbg/sleef-sys"
+documentation = "https://docs.rs/sleef-sys"
+categories = ["api-bindings", "external-ffi-bindings", "no-std", "hardware-support"]
+keywords = ["simd", "libm", "vector", "math", "ffi"]
+description = """
+Rust FFI bindings to the SLEEF Vectorized Math Library
+"""
+
+[badges]
+appveyor = { repository = "gnzlbg/sleef-rs" }
+travis-ci = { repository = "gnzlbg/sleef-rs" }
+codecov = { repository = "gnzlbg/sleef-rs" }
+is-it-maintained-issue-resolution = { repository = "gnzlbg/sleef-rs" }
+is-it-maintained-open-issues = { repository = "gnzlbg/sleef-rs" }
+maintenance = { status = "experimental" }
 
 [dependencies]
+libc = { version = "0.2", default-features = false }
+
+[build-dependencies]
+cmake = "^0.1"
+bindgen = "^0.37"
