@@ -1,18 +1,18 @@
-# Rust bindings for SLEEF: SIMD Library for Evaluating Elementary Functions
+# Rust bindings for SLEEF
 
 [![Travis-CI Status]][travis] [![Appveyor Status]][appveyor] [![Latest Version]][crates.io] [![docs]][docs.rs]
 
-> https://sleef.org/
+> [SLEEF: SIMD Library for Evaluating Elementary Functions](https://sleef.org/) 
 
-Note: Rust does not support `long double` (80-bit precision floating-point) and
-the SLEEF APIs that use it are not included in these bindings _yet_ (they
-_could_ probably be added to just handle `long double` as a bag of bytes).
+Note: Rust does not support `long double` (80-bit precision floating-point
+types) and the SLEEF APIs that use it are not included in these bindings _yet_
+(they _could_ probably be added to just handle `long double` as a bag of bytes).
 
 ### Cargo features
 
 > None
 
-## Platform support
+### Platform support
 
 TBD.
 
