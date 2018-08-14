@@ -32,7 +32,7 @@ matrix:
       osx_image: xcode9.4
       install: true
 install: travis_retry rustup target add $TARGET
-before_script: travis_retry rustup component add rustfmt-preview
-script: 
+before_script:
+  - travis_retry rustup component add rustfmt-preview
   - cargo generate-lockfile
-  - ./ci/run.sh
+script: ./ci/run.sh
