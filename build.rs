@@ -13,6 +13,7 @@ fn main() {
         // no tests (should build and run the tests behind a feature flag):
         .define("BUILD_TESTS", "FALSE")
         .define("BUILD_SHARED_LIBS", "FALSE")
+        .define("CMAKE_C_FLAGS", "-fPIC")
         .build();
 
     println!("cargo:rustc-link-lib=static=sleef");
