@@ -8,7 +8,7 @@ fn main() {
     let target = env::var("TARGET").expect("TARGET was not set");
 
     let dst = cmake::Config::new("sleef")
-        .cflag("-fPIC")
+        //.cflag("-fPIC")
         // .very_verbose(true)
         // no DFT libraries (should be behind a feature flag):
         .define("BUILD_DFT", "FALSE")
