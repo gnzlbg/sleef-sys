@@ -17,9 +17,18 @@ types) and the SLEEF APIs that use it are not included in these bindings _yet_
 
 ### Platform support
 
-TBD.
+This wrapper supports the following platforms, but CI is not properly set up for
+all of them yet.
 
-### License
+| Linux targets:                  | build     | run     |
+|---------------------------------|-----------|---------|
+| `x86_64-unknown-linux-gnu`      | ✓         | ✓       |
+| `aarch64-unknown-linux-gnu`     | ✗         | ✗       |
+| `powerpc64le-unknown-linux-gnu` | ✗         | ✗       |
+| **MacOSX targets:**             | **build** | **run** |
+| `x86_64-apple-darwin`           | ✓         | ✓       |
+| **Windows targets:**            | **build** | **run** |
+| `x86_64-pc-windows-msvc`        | ✓         | ✓       |
 
 ### License
 

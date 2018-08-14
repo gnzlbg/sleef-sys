@@ -8,31 +8,43 @@ matrix:
   fast_finish: true
   include:
     - name: "x86_64-unknown-linux-gnu + SSE2"
-      env: TARGET=x86_64-unknown-linux-gnu CC=gcc-7 CXX=g++-7
+      env: TARGET=x86_64-unknown-linux-gnu
       install: true
-      addons: &gcc7
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-7
+      script: ci/run.sh
     - name: "x86_64-unknown-linux-gnu + AVX"
-      env: TARGET=x86_64-unknown-linux-gnu CC=gcc-7 CXX=g++-7 RUSTFLAGS="-C target-feature=+avx"
-      addons: *gcc7
+      env: TARGET=x86_64-unknown-linux-gnu RUSTFLAGS="-C target-feature=+avx"
       install: true
-
+      script: ci/run.sh
+    #- name: "aarch64-unknown-linux-gnu + NEON"
+    #  env: TARGET=aarch64-unknown-linux-gnu RUSTFLAGS="-C target-feature=+neon"
+    #- name: "powerpc64le-unknown-linux-gnu + VSX"
+    #  env: TARGET=powerpc64le-unknown-linux-gnu RUSTFLAGS="-C target-feature=+vsx"
     - name: "x86_64-apple-darwin + SSE2"
       os: osx
       env: TARGET=x86_64-apple-darwin
       osx_image: xcode9.4
       install: true
+      script: ci/run.sh
     - name: "x86_64-apple-darwin + AVX"
       os: osx
       env: TARGET=x86_64-apple-darwin RUSTFLAGS="-C target-feature=+avx"
       osx_image: xcode9.4
       install: true
+      script: ci/run.sh
+    #- name: "documentation"
+    #  install: true
+    #  before_script: true
+    #  script: ci/dox.sh
+  allow_failures:
+    #- env: TARGET=aarch64-unknown-linux-gnu RUSTFLAGS="-C target-feature=+neon"
+    #- env: TARGET=powerpc64le-unknown-linux-gnu RUSTFLAGS="-C target-feature=+vsx"
+
 install: travis_retry rustup target add $TARGET
 before_script:
   - travis_retry rustup component add rustfmt-preview
   - cargo generate-lockfile
-script: ./ci/run.sh
+script: ci/run-docker.sh $TARGET $FEATURES
+
+env:
+  global:
+    secure: "F416mFJJzw5TsL0G9XHYPRUlrKh5kEoABpjgCgG5YB74+LHrQB294MnwrTI+O1Ctf/bv0LotOMVDJulFbK1C0/IQMcD0bFE61u7HB5tEXK60E76uDclpoq7fWSsL8lbOw6QIHDQb6n82C24B/Evw1KbSwi9rESufZ6YIRp6+jTLqmAYJF/Tm7xZguLT7Yo52LMHstUFB3YnG61Gc/46iDhm/qPua5vxdNwJUy5zGGyv+PboBRBYnpWPuGt+tQUO7V/XjVIWSFVrroebJSyn9rR1jiWbAsILtiHNXKNtc4GTwpILgF5C6+rKAmmnYWh5046ygdFsxy0FjJzdF8ENXOmBUD1A/OMwxKciMlwSmUae7bRBMiGobXqS2hQFGUWuSuNqXu1MGiymgj0HHuqmfiob2NtfzsiBmt5RL0mk2XIXmm82oNyetQK635tJelnfpfprCa0JILjqn+b/UQy5wpwjGNQlUeja+fGph32iKgal/1kxjCzjSg7ri3btsvcqnjvwYiD+XXzNRgNVp3XpMjyM+CdRxfmaWZWMuWW9kqxJZayXjsb61s1sd/3tA1RN2LJRbJKm0tf+USH8nHOrz4/E9qOePaY/4s3roPtMWIaTE2JE3Y6VU2oQP1+AHJkQTBJJUrDhxuQQRP0BSflG6dSnWy4xrwuDP7DTeLdNCdoU="
