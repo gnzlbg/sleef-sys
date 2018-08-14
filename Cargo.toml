@@ -28,6 +28,7 @@ bench = false
 
 [dependencies]
 libc = { version = "0.2", default-features = false }
+cfg-if = "^0.1"
 
 [build-dependencies]
 cmake = "^0.1"

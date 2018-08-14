@@ -7,8 +7,16 @@ use std::{path::PathBuf, env};
 fn main() {
     let target = env::var("TARGET").expect("TARGET was not set");
 
+    // Parse target features, this is required for ABI compatibility.
+    let mut features = std::collections::HashSet::<String>::default();
+    if let Ok(rustflags) = env::var("CARGO_CFG_TARGET_FEATURE") {
+        for v in rustflags.split(',') {
+            features.insert(v.to_string());
+        }
+    }
+    eprintln!("features: {:?}", features);
+
     let dst = cmake::Config::new("sleef")
-        //.cflag("-fPIC")
         // .very_verbose(true)
         // no DFT libraries (should be behind a feature flag):
         .define("BUILD_DFT", "FALSE")
@@ -18,10 +26,10 @@ fn main() {
         .build();
 
     println!("cargo:rustc-link-lib=sleef");
-    println!("cargo:rustc-link-search=native={}/lib", dst.display());
+    println!("cargo:rustc-link-search=native={}", dst.join("lib").display());
 
     let out_dir = PathBuf::from(env::var_os("OUT_DIR").expect("OUT_DIR was not set"));
-    let sleef_header = out_dir.join("include/sleef.h");
+    let sleef_header = out_dir.join("include").join("sleef.h");
     assert!(sleef_header.exists(),
             "error sleef.h header not found in OUT_DIR={}",
             out_dir.display());
@@ -41,6 +49,12 @@ fn main() {
         .ctypes_prefix("::libc")
     // Generate inline functions:
         .generate_inline_functions(true)
+    // Only target nightly Rust for the time being:
+        .unstable_rust(true)
+        .rust_target(bindgen::RustTarget::Nightly)
+    // Blacklist architecture specific vector types
+        .blacklist_type("__m128d")
+        .opaque_type("__m128d")
     // Finish the builder and generate the bindings.
         .generate()
     // Unwrap the Result and panic on failure.
