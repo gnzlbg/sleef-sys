@@ -7,20 +7,25 @@ dist: trusty
 matrix:
   fast_finish: true
   include:
-    - env: TARGET=x86_64-unknown-linux-gnu CC=gcc-7 CXX=g++-7
-      name: "x86_64-unknown-linux-gnu + SSE2"
-      install: travis_retry rustup component add rustfmt-preview
-      addons:
+    - name: "x86_64-unknown-linux-gnu + SSE2"
+      env: TARGET=x86_64-unknown-linux-gnu CC=gcc-7 CXX=g++-7
+      addons: &gcc7
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
             - g++-7
-    - os: osx
+    - name: "x86_64-unknown-linux-gnu + AVX"
+      env: TARGET=x86_64-unknown-linux-gnu CC=gcc-7 CXX=g++-7 RUSTFLAGS="-C target-feature=+avx"
+      addons: *gcc7
+
+    - name: "x86_64-apple-darwin + SSE2"
+      os: osx
       env: TARGET=x86_64-apple-darwin
-      name: "x86_64-apple-darwin + SSE2"
-      install: travis_retry rustup component add rustfmt-preview
-      script: ci/run.sh
+      osx_image: xcode9.4
+    - name: "x86_64-apple-darwin + AVX"
+      os: osx
+      env: TARGET=x86_64-apple-darwin RUSTFLAGS="-C target-feature=+avx"
       osx_image: xcode9.4
 install:
   - travis_retry rustup target add $TARGET

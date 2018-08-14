@@ -17,7 +17,7 @@ fn main() {
     eprintln!("features: {:?}", features);
 
     let dst = cmake::Config::new("sleef")
-        // .very_verbose(true)
+        .very_verbose(true)
         // no DFT libraries (should be behind a feature flag):
         .define("BUILD_DFT", "FALSE")
         // no tests (should build and run the tests behind a feature flag):
@@ -37,7 +37,7 @@ fn main() {
     // The bindgen::Builder is the main entry point
     // to bindgen, and lets you build up options for
     // the resulting bindings.
-    let bindings = bindgen::Builder::default()
+    let mut bindings = bindgen::Builder::default()
     // The input header we would like to generate
     // bindings for.
         .header(sleef_header.to_str().expect("failed to convert header path to string"))
@@ -50,11 +50,42 @@ fn main() {
     // Generate inline functions:
         .generate_inline_functions(true)
     // Only target nightly Rust for the time being:
-        .unstable_rust(true)
-        .rust_target(bindgen::RustTarget::Nightly)
-    // Blacklist architecture specific vector types
-        .blacklist_type("__m128d")
-        .opaque_type("__m128d")
+        .rust_target(bindgen::RustTarget::Nightly);
+
+    // Blacklist vector types:
+    if target.contains("86") {
+        // x86 targets: i386,i586,i686,x86,x86_64
+        let vs = [
+            // MMX:
+            "__m64",
+            // SSE:
+            "__m128", "__m128i", "__m128d",
+            // AVX
+            "__m256", "__m256i", "__m256d",
+            // FIXME: AVX-512
+            //"__m512", "__m512i", "__m512d",
+        ];
+
+        for v in &vs {
+            bindings = bindings.blacklist_type(v).opaque_type(v);
+        }
+
+        let x86_features = {
+            let mut features = std::collections::HashMap::<String, String>::default();
+            features.insert("sse2".to_string(), "__SSE2__".to_string());
+            features.insert("avx".to_string(), "__AVX__".to_string());
+            // FIXME: AVX-512
+            // features.insert("avx512f".to_string(), "__AVX512F__".to_string());
+            features
+        };
+        for f in &features {
+            if let Some(def) = x86_features.get(f) {
+                bindings = bindings.clang_arg(format!("-D{}", def));
+            }
+        }
+    }
+
+    let bindings = bindings
     // Finish the builder and generate the bindings.
         .generate()
     // Unwrap the Result and panic on failure.

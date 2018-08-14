@@ -1,5 +1,5 @@
 //! Bindings for SLEEF: SIMD Library for Evaluating Elementary Functions
-#![feature(simd_ffi)]
+#![feature(simd_ffi, stdsimd)]
 #![allow(
     improper_ctypes,
     non_camel_case_types,
@@ -22,7 +22,16 @@ cfg_if! {
             pub use core::arch::x86_64::*;
 
         }
-        pub use self::x86::{__m128d};
+        pub use self::x86::{
+            // MMX:
+            __m64,
+            // SSE:
+            __m128, __m128i, __m128d,
+            // AVX:
+            __m256, __m256i, __m256d,
+            // FIXME: AVX-512:
+            //__m512, __m512i, __m512d,
+        };
     }
 }
 
