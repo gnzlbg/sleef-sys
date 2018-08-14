@@ -53,7 +53,7 @@ fn main() {
         .rust_target(bindgen::RustTarget::Nightly);
 
     // Blacklist vector types:
-    if target.contains("86") {
+    if target.contains("86") && (features.contains("sse") || features.contains("avx")) {
         // x86 targets: i386,i586,i686,x86,x86_64
         let vs = [
             // MMX:
@@ -83,6 +83,32 @@ fn main() {
                 bindings = bindings.clang_arg(format!("-D{}", def));
             }
         }
+    } else if target.contains("aarch") && features.contains("neon") {
+        let vs = [
+            "int8x8_t", "uint8x8_t", "poly8x8_t", "int16x4_t", "uint16x4_t",
+            "poly16x4_t", "int32x2_t", "uint32x2_t", "float32x2_t", "int64x1_t", "uint64x1_t",
+            "float64x1_t", "int8x16_t", "uint8x16_t", "poly8x16_t", "int16x8_t",
+            "uint16x8_t", "poly16x8_t", "int32x4_t", "uint32x4_t", "float32x4_t", "int64x2_t",
+            "uint64x2_t", "float64x2_t"
+        ];
+        for v in &vs {
+            bindings = bindings.blacklist_type(v).opaque_type(v);
+        }
+
+    } else if target.contains("powerpc64") && features.contains("vsx") {
+        let vs = [
+            "vector_signed_char", "vector_unsigned_char",
+            "vector_signed_short", "vector_unsigned_short", "vector_signed_int",
+            "vector_unsigned_int",  "vector_float", "vector_signed_long",
+            "vector_unsigned_long", "vector_double", "vector_bool_char",
+            "vector_bool_short", "vector_bool_int", "vector_bool_long"
+        ];
+        for v in &vs {
+            bindings = bindings.blacklist_type(v).opaque_type(v);
+        }
+    } else {
+        eprintln!("unsupported target: \"{}\" features: \"{:?}\"", target, features);
+        std::process::abort();
     }
 
     let bindings = bindings
