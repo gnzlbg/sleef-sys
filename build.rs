@@ -8,15 +8,16 @@ fn main() {
     let target = env::var("TARGET").expect("TARGET was not set");
 
     let dst = cmake::Config::new("sleef")
+        .cflag("-fPIC")
+        // .very_verbose(true)
         // no DFT libraries (should be behind a feature flag):
         .define("BUILD_DFT", "FALSE")
         // no tests (should build and run the tests behind a feature flag):
         .define("BUILD_TESTS", "FALSE")
-        .define("BUILD_SHARED_LIBS", "FALSE")
-        .define("CMAKE_C_FLAGS", "-fPIC")
+        .define("BUILD_SHARED_LIBS", "TRUE")
         .build();
 
-    println!("cargo:rustc-link-lib=static=sleef");
+    println!("cargo:rustc-link-lib=sleef");
     println!("cargo:rustc-link-search=native={}/lib", dst.display());
 
     let out_dir = PathBuf::from(env::var_os("OUT_DIR").expect("OUT_DIR was not set"));

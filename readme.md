@@ -6,11 +6,14 @@
 
 Note: Rust does not support `long double` (80-bit precision floating-point
 types) and the SLEEF APIs that use it are not included in these bindings _yet_
-(they _could_ probably be added to just handle `long double` as a bag of bytes).
+(they _could_ probably be added to just handle `long double` as a bag of bytes**.
 
 ### Cargo features
 
-> None
+* **dft** (default: disabled - equivalent to SLEEF's
+  [`BUILD_DFT`](https://sleef.org/compile.xhtml) option): SLEEF also includes
+  SIMD-vectorized and parallelized subroutines for discrete Fourier transform
+  (DFT) with an API similar to FFTW.
 
 ### Platform support
 
