@@ -9,6 +9,7 @@ matrix:
   include:
     - name: "x86_64-unknown-linux-gnu + SSE2"
       env: TARGET=x86_64-unknown-linux-gnu CC=gcc-7 CXX=g++-7
+      install: true
       addons: &gcc7
         apt:
           sources:
@@ -18,18 +19,20 @@ matrix:
     - name: "x86_64-unknown-linux-gnu + AVX"
       env: TARGET=x86_64-unknown-linux-gnu CC=gcc-7 CXX=g++-7 RUSTFLAGS="-C target-feature=+avx"
       addons: *gcc7
+      install: true
 
     - name: "x86_64-apple-darwin + SSE2"
       os: osx
       env: TARGET=x86_64-apple-darwin
       osx_image: xcode9.4
+      install: true
     - name: "x86_64-apple-darwin + AVX"
       os: osx
       env: TARGET=x86_64-apple-darwin RUSTFLAGS="-C target-feature=+avx"
       osx_image: xcode9.4
-install:
-  - travis_retry rustup target add $TARGET
-  - travis_retry rustup component add rustfmt-preview
+      install: true
+install: travis_retry rustup target add $TARGET
+before_script: travis_retry rustup component add rustfmt-preview
 script: 
   - cargo generate-lockfile
   - ./ci/run.sh
