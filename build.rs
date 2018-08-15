@@ -21,7 +21,8 @@ fn main() {
        .define("BUILD_DFT", "FALSE")
     // no tests (should build and run the tests behind a feature flag):
        .define("BUILD_TESTS", "FALSE")
-       .define("BUILD_SHARED_LIBS", "TRUE");
+       .define("BUILD_SHARED_LIBS", "TRUE")
+       .define("SLEEF_SHOW_CONFIG", "ON");
     if let Ok(value) = env::var("CMAKE_TOOLCHAIN_FILE") {
         dst.define("CMAKE_TOOLCHAIN_FILE", value);
     }
