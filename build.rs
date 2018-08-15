@@ -14,7 +14,6 @@ fn main() {
             features.insert(v.to_string());
         }
     }
-    eprintln!("features: {:?}", features);
 
     let dst = cmake::Config::new("sleef")
         .very_verbose(true)
