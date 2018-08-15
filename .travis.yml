@@ -18,7 +18,6 @@ matrix:
     - name: "Intel SDE + SSE2"
       env: TARGET=x86_64-unknown-linux-gnu-emulated
       install: true
-      script: ci/run.sh
     - name: "Intel SDE + AVX"
       env: TARGET=x86_64-unknown-linux-gnu-emulated RUSTFLAGS="-C target-feature=+avx"
       install: true
