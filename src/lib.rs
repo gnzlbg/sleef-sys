@@ -1,11 +1,10 @@
 //! Raw bindings for SLEEF: SIMD Library for Evaluating Elementary Functions .
 //!
-//! ## Documentation for other targets
-//!
-//! * [`x86_64-unknown-linux-gnu`](https://google.com) (SSE2)
-//! * [`x86_64-unknown-linux-gnu`](https://google.com) (AVX)
-//! * [`aarch64-unknown-linux-gnu`](https://google.com) (NEON)
-//! * [`powerpc64le-unknown-linux-gnu`](https://google.com) (VSX)
+//! WARNING: only the SLEEF APIs that are supported by the set of target
+//! features enabled while compiling this crate are exposed. Trying to call a
+//! SLEEF function using a larger register type than the one supported by the
+//! enabled target features is **undefined behavior** (see
+//! https://github.com/rust-lang/rust/issues/53346).
 
 #![feature(simd_ffi, stdsimd)]
 #![allow(

@@ -32,11 +32,7 @@ cfg-if = "^0.1"
 
 [build-dependencies]
 cmake = "^0.1"
-# bindgen = "^0.37"
-
-[build-dependencies.bindgen]
-git = "https://github.com/gnzlbg/rust-bindgen"
-branch = "vec"
+bindgen = "^0.38"
 
 [features]
 default = []
