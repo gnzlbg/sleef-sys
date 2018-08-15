@@ -5,6 +5,7 @@ authors = ["gnzlbg <gonzalobg88@gmail.com>"]
 links = "sleef"
 build = "build.rs"
 readme = "readme.md"
+license = "MIT/Apache-2.0"
 repository = "https://github.com/gnzlbg/sleef-sys"
 homepage = "https://github.com/gnzlbg/sleef-sys"
 documentation = "https://docs.rs/sleef-sys"
