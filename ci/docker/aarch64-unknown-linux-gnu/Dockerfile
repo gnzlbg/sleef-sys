@@ -5,13 +5,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libc6-dev \
   gcc-aarch64-linux-gnu \
   libc6-dev-arm64-cross \
+  libc6-arm64-cross \
   qemu-user \
   make \
   file \
   cmake \
   clang \
-  libclang-dev
+  libclang-dev \
+  libmpfr-dev \
+  binfmt-support \
+  libfftw3-dev:arm64 \
+  libc6:arm64 \
+  libmpfr-dev:arm64 \
+  libgomp1:arm64
+
+COPY ci/aarch64.cmake /aarch64.cmake
 
 ENV CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc \
     CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_RUNNER="qemu-aarch64 -L /usr/aarch64-linux-gnu" \
-    OBJDUMP=aarch64-linux-gnu-objdump
+    OBJDUMP=aarch64-linux-gnu-objdump \
+    CMAKE_TOOLCHAIN_FILE=/aarch64.cmake

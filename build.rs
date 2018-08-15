@@ -15,14 +15,17 @@ fn main() {
         }
     }
 
-    let dst = cmake::Config::new("sleef")
-        .very_verbose(true)
-        // no DFT libraries (should be behind a feature flag):
-        .define("BUILD_DFT", "FALSE")
-        // no tests (should build and run the tests behind a feature flag):
-        .define("BUILD_TESTS", "FALSE")
-        .define("BUILD_SHARED_LIBS", "TRUE")
-        .build();
+    let mut dst = cmake::Config::new("sleef");
+    dst.very_verbose(true)
+    // no DFT libraries (should be behind a feature flag):
+       .define("BUILD_DFT", "FALSE")
+    // no tests (should build and run the tests behind a feature flag):
+       .define("BUILD_TESTS", "FALSE")
+       .define("BUILD_SHARED_LIBS", "TRUE");
+    if let Ok(value) = env::var("CMAKE_TOOLCHAIN_FILE") {
+        dst.define("CMAKE_TOOLCHAIN_FILE", value);
+    }
+    let dst = dst.build();
 
     println!("cargo:rustc-link-lib=sleef");
     println!("cargo:rustc-link-search=native={}", dst.join("lib").display());

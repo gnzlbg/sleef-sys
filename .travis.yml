@@ -9,15 +9,19 @@ matrix:
   include:
     - name: "i686-unknown-linux-gnu + SSE2"
       env: TARGET=i686-unknown-linux-gnu
-      install: true
     - name: "x86_64-unknown-linux-gnu + SSE2"
       env: TARGET=x86_64-unknown-linux-gnu
       install: true
-      script: ci/run.sh
     - name: "x86_64-unknown-linux-gnu + AVX"
       env: TARGET=x86_64-unknown-linux-gnu RUSTFLAGS="-C target-feature=+avx"
       install: true
+    - name: "Intel SDE + SSE2"
+      env: TARGET=x86_64-unknown-linux-gnu-emulated
+      install: true
       script: ci/run.sh
+    - name: "Intel SDE + AVX"
+      env: TARGET=x86_64-unknown-linux-gnu-emulated RUSTFLAGS="-C target-feature=+avx"
+      install: true
     - name: "aarch64-unknown-linux-gnu + NEON"
       env: TARGET=aarch64-unknown-linux-gnu RUSTFLAGS="-C target-feature=+neon"
     - name: "powerpc64le-unknown-linux-gnu + VSX"
@@ -31,6 +35,18 @@ matrix:
     - name: "x86_64-apple-darwin + AVX"
       os: osx
       env: TARGET=x86_64-apple-darwin RUSTFLAGS="-C target-feature=+avx"
+      osx_image: xcode9.4
+      install: true
+      script: ci/run.sh
+    - name: "i686-apple-darwin + SSE2"
+      os: osx
+      env: TARGET=i686-apple-darwin
+      osx_image: xcode9.4
+      install: true
+      script: ci/run.sh
+    - name: "i686-apple-darwin + AVX"
+      os: osx
+      env: TARGET=i686-apple-darwin RUSTFLAGS="-C target-feature=+avx"
       osx_image: xcode9.4
       install: true
       script: ci/run.sh
