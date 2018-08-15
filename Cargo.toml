@@ -32,7 +32,8 @@ libc = { version = "0.2", default-features = false }
 cfg-if = "^0.1"
 
 [build-dependencies]
-cmake = "^0.1"
+#cmake = "^0.1"
+cmake = { git = "https://github.com/gnzlbg/cmake-rs", branch = "debug" }
 bindgen = "^0.38"
 
 [features]
