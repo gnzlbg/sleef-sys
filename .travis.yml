@@ -37,7 +37,7 @@ matrix:
       osx_image: xcode9.4
       install: true
       script: ci/run.sh
-    #- name: "documentation"
+    #- name: "documentation" FIXME doc CI build
     #  install: true
     #  before_script: true
     #  script: ci/dox.sh
