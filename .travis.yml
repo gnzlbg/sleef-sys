@@ -37,18 +37,6 @@ matrix:
       osx_image: xcode9.4
       install: true
       script: ci/run.sh
-    - name: "i686-apple-darwin + SSE2"
-      os: osx
-      env: TARGET=i686-apple-darwin
-      osx_image: xcode9.4
-      install: true
-      script: ci/run.sh
-    - name: "i686-apple-darwin + AVX"
-      os: osx
-      env: TARGET=i686-apple-darwin RUSTFLAGS="-C target-feature=+avx"
-      osx_image: xcode9.4
-      install: true
-      script: ci/run.sh
     #- name: "documentation"
     #  install: true
     #  before_script: true
