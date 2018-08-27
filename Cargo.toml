@@ -33,7 +33,7 @@ cfg-if = "^0.1"
 
 [build-dependencies]
 cmake = "^0.1"
-bindgen = "^0.38"
+bindgen = "^0.39"
 
 [features]
 default = []
