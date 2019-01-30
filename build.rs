@@ -1,10 +1,12 @@
 //! Builds the sleef library from source.
 extern crate cmake;
 extern crate bindgen;
+extern crate env_logger;
 
 use std::{path::PathBuf, env};
 
 fn main() {
+    env_logger::init();
     let target = env::var("TARGET").expect("TARGET was not set");
 
     // Parse target features, this is required for ABI compatibility.
@@ -45,7 +47,7 @@ fn main() {
     // The bindings should be no_std:
         .use_core()
     // The bindings should use the ctypes from libc, not std::os::raw:
-        .ctypes_prefix("::libc")
+        .ctypes_prefix("libc")
     // Generate inline functions:
         .generate_inline_functions(true)
     // Only target nightly Rust for the time being:
