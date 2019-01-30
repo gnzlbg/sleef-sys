@@ -22,13 +22,13 @@ matrix:
     - name: "x86_64-apple-darwin + SSE2"
       os: osx
       env: TARGET=x86_64-apple-darwin
-      osx_image: xcode9.4
+      osx_image: xcode10
       install: true
       script: ci/run.sh
     - name: "x86_64-apple-darwin + AVX"
       os: osx
       env: TARGET=x86_64-apple-darwin RUSTFLAGS="-C target-feature=+avx"
-      osx_image: xcode9.4
+      osx_image: xcode10
       install: true
       script: ci/run.sh
     #- name: "documentation"
