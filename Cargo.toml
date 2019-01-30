@@ -1,6 +1,6 @@
 [package]
 name = "sleef-sys"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["gnzlbg <gonzalobg88@gmail.com>"]
 links = "sleef"
 build = "build.rs"
@@ -33,7 +33,8 @@ cfg-if = "^0.1"
 
 [build-dependencies]
 cmake = "^0.1"
-bindgen = "^0.44"
+bindgen = "^0.46"
+env_logger = "0.6"
 
 [features]
 default = []
