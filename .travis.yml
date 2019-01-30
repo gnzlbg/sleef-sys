@@ -35,7 +35,7 @@ matrix:
     #  install: true
     #  before_script: true
     #  script: ci/dox.sh
-  allow_failures:
+  #allow_failures:
     #- env: TARGET=aarch64-unknown-linux-gnu RUSTFLAGS="-C target-feature=+neon"
     #- env: TARGET=powerpc64le-unknown-linux-gnu RUSTFLAGS="-C target-feature=+vsx"
 
