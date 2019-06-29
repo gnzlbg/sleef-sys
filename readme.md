@@ -15,6 +15,8 @@ types) and the SLEEF APIs that use it are not included in these bindings _yet_
   SIMD-vectorized and parallelized subroutines for discrete Fourier transform
   (DFT) with an API similar to FFTW.
 
+* **static** (default: disabled) Link sleef statically
+
 ### Platform support
 
 This wrapper supports the following platforms, but CI is not properly set up for

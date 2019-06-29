@@ -5,6 +5,14 @@ extern crate env_logger;
 
 use std::{path::PathBuf, env};
 
+fn flag_str(cond: bool) -> &'static str {
+    if cond {
+        "TRUE"
+    } else {
+        "FALSE"
+    }
+}
+
 fn main() {
     env_logger::init();
     let target = env::var("TARGET").expect("TARGET was not set");
@@ -17,16 +25,22 @@ fn main() {
         }
     }
 
+    let static_linking = env::var("CARGO_FEATURE_STATIC").is_ok();
+
     let dst = cmake::Config::new("sleef")
         .very_verbose(true)
         // no DFT libraries (should be behind a feature flag):
         .define("BUILD_DFT", "FALSE")
         // no tests (should build and run the tests behind a feature flag):
         .define("BUILD_TESTS", "FALSE")
-        .define("BUILD_SHARED_LIBS", "TRUE")
+        .define("BUILD_SHARED_LIBS", flag_str(!static_linking))
         .build();
 
-    println!("cargo:rustc-link-lib=sleef");
+    if static_linking {
+        println!("cargo:rustc-link-lib=static=sleef");
+    } else {
+        println!("cargo:rustc-link-lib=sleef");
+    };
     println!("cargo:rustc-link-search=native={}", dst.join("lib").display());
 
     let out_dir = PathBuf::from(env::var_os("OUT_DIR").expect("OUT_DIR was not set"));
