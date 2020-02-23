@@ -79,9 +79,17 @@ fn main() {
             // features.insert("avx512f".to_string(), "__AVX512F__".to_string());
             features
         };
-        for f in &features {
-            if let Some(def) = x86_features.get(f) {
+        let use_all_extensions = env::var("CARGO_FEATURE_ALL_EXTENSIONS").is_ok();
+
+        if use_all_extensions {
+            for def in x86_features.values() {
                 bindings = bindings.clang_arg(format!("-D{}", def));
+            }
+        } else {
+            for f in &features {
+                if let Some(def) = x86_features.get(f) {
+                    bindings = bindings.clang_arg(format!("-D{}", def));
+                }
             }
         }
     } else if target.contains("aarch") && features.contains("neon") {

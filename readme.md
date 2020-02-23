@@ -14,6 +14,7 @@ types) and the SLEEF APIs that use it are not included in these bindings _yet_
   [`BUILD_DFT`](https://sleef.org/compile.xhtml) option): SLEEF also includes
   SIMD-vectorized and parallelized subroutines for discrete Fourier transform
   (DFT) with an API similar to FFTW.
+* **all_extensions** (default: disabled): Generate sse and avx instructions even if the corresponding target feature flags are not set. This is useful for crates doing runtime detection of SIMD capabilites.
 
 ### Platform support
 
