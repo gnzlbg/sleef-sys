@@ -39,3 +39,7 @@ env_logger = "0.6"
 [features]
 default = []
 dft = []
+all_extensions = []
+
+[[example]]
+name = "avx"

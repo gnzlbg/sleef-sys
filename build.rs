@@ -44,6 +44,8 @@ fn main() {
         .header(sleef_header.to_str().expect("failed to convert header path to string"))
     // Rust does not support 80-bit precision floats:
         .opaque_type("Sleef_longdouble2")
+        .blacklist_item(".*sincospil.*")
+        .blacklist_item(".*longdouble.*") // DFT functions
     // The bindings should be no_std:
         .use_core()
     // The bindings should use the ctypes from libc, not std::os::raw:
@@ -79,9 +81,17 @@ fn main() {
             // features.insert("avx512f".to_string(), "__AVX512F__".to_string());
             features
         };
-        for f in &features {
-            if let Some(def) = x86_features.get(f) {
+        let use_all_extensions = env::var("CARGO_FEATURE_ALL_EXTENSIONS").is_ok();
+
+        if use_all_extensions {
+            for def in x86_features.values() {
                 bindings = bindings.clang_arg(format!("-D{}", def));
+            }
+        } else {
+            for f in &features {
+                if let Some(def) = x86_features.get(f) {
+                    bindings = bindings.clang_arg(format!("-D{}", def));
+                }
             }
         }
     } else if target.contains("aarch") && features.contains("neon") {
