@@ -33,9 +33,9 @@ cfg_if! {
             __m128, __m128i, __m128d,
             // AVX:
             __m256, __m256i, __m256d,
-            // FIXME: AVX-512:
-            //__m512, __m512i, __m512d,
         };
+        #[cfg(target_feature = "avx512f")]
+        pub use self::x86::{ __m512, __m512i, __m512d };
     } else if #[cfg(all(target_arch = "aarch64", target_feature = "neon"))] {
         pub use core::arch::aarch64::{
             int8x8_t, uint8x8_t, poly8x8_t, int16x4_t, uint16x4_t,
