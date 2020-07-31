@@ -85,13 +85,25 @@ fn main() {
             bindings = bindings.blacklist_type(v).opaque_type(v);
         }
 
+        if features.contains("avx512f") {
+            let vs = [
+                // AVX-512
+                "__m512", "__m512i", "__m512d",
+            ];
+
+            for v in &vs {
+                bindings = bindings.blacklist_type(v).opaque_type(v);
+            }
+        }
+
         let x86_features = {
-            let mut features = std::collections::HashMap::<String, String>::default();
-            features.insert("sse2".to_string(), "__SSE2__".to_string());
-            features.insert("avx".to_string(), "__AVX__".to_string());
-            // FIXME: AVX-512
-            // features.insert("avx512f".to_string(), "__AVX512F__".to_string());
-            features
+            let mut x86_features = std::collections::HashMap::<String, String>::default();
+            x86_features.insert("sse2".to_string(), "__SSE2__".to_string());
+            x86_features.insert("avx".to_string(), "__AVX__".to_string());
+            if features.contains("avx512f") {
+                x86_features.insert("avx512f".to_string(), "__AVX512F__".to_string());
+            }
+            x86_features
         };
         for f in &features {
             if let Some(def) = x86_features.get(f) {
