@@ -26,9 +26,20 @@ cfg_if! {
         #[cfg(target_arch = "x86_64")]
         use core::arch::x86_64 as x86;
 
+        #[cfg(target_arch = "x86")]
         pub use self::x86::{
             // MMX:
             __m64,
+            // SSE:
+            __m128, __m128i, __m128d,
+            // AVX:
+            __m256, __m256i, __m256d,
+            // FIXME: AVX-512:
+            //__m512, __m512i, __m512d,
+        };
+
+        #[cfg(target_arch = "x86_64")]
+        pub use self::x86::{
             // SSE:
             __m128, __m128i, __m128d,
             // AVX:
